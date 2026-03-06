@@ -188,19 +188,19 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
         <div class="kpi-label">💰 Receita Total</div>
         <div class="kpi-value" id="kpi-receita">—</div>
         <div class="kpi-change" id="kpi-receita-change">—</div>
-        <div class="kpi-sub" id="kpi-receita-sub">—</div>
+        <div class="kpi-sub" id="kpi-receita-sub">—</div><div class="kpi-sub" style="color:#93c5fd;font-size:10px;font-weight:700;margin-top:2px">💵 Base Caixa</div>
       </div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#10b981,#34d399)">
         <div class="kpi-label">📈 MRR</div>
         <div class="kpi-value" id="kpi-mrr">—</div>
         <div class="kpi-change" id="kpi-mrr-change">—</div>
-        <div class="kpi-sub" id="kpi-mrr-sub">Receita Recorrente</div>
+        <div class="kpi-sub" id="kpi-mrr-sub">Receita Recorrente</div><div class="kpi-sub" style="color:#60a5fa;font-size:10px;font-weight:700;margin-top:2px">📊 Por Competência</div>
       </div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#8b5cf6,#a78bfa)">
         <div class="kpi-label">🔄 ARR</div>
         <div class="kpi-value" id="kpi-arr">—</div>
         <div class="kpi-change" id="kpi-arr-change">—</div>
-        <div class="kpi-sub" id="kpi-arr-sub">Receita Recorrente Anual</div>
+        <div class="kpi-sub" id="kpi-arr-sub">Receita Recorrente Anual</div><div class="kpi-sub" style="color:#a78bfa;font-size:10px;font-weight:700;margin-top:2px">📊 Competência (MRR×12)</div>
       </div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#f59e0b,#fbbf24)">
         <div class="kpi-label">📉 EBITDA</div>
@@ -347,6 +347,16 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
         <div style="font-size:12px;color:#64748b;" id="ticketCompareLabel">Jan/26 vs Fev/26</div>
       </div>
       <div class="ticket-compare-grid" id="ticketCompareGrid"></div>
+      <div class="charts-grid" style="margin-bottom:16px">
+        <div class="chart-card">
+          <div class="chart-title"><span class="dot" style="background:#3b82f6"></span> Analytics+Pesquisa vs Outros — % sobre Receita</div>
+          <div class="chart-wrap"><canvas id="chartPizzaAnalytics"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title"><span class="dot" style="background:#10b981"></span> Faturamento Total por Produto — Mês Selecionado</div>
+          <div class="chart-wrap"><canvas id="chartFaturamentoProdutos"></canvas></div>
+        </div>
+      </div>
       <div class="charts-grid">
         <div class="chart-card">
           <div class="chart-title">Ticket Médio por Produto (Jan–Jun)</div>
@@ -694,13 +704,18 @@ function updateTicketCompare() {
   const mA = DATA.meses[p];
   const mB = DATA.meses[i];
   document.getElementById('ticketCompareLabel').textContent = mA+'/26 vs '+mB+'/26';
+  
+  // Calculate total revenue for the selected month (for % share)
+  const receitaMes = DATA.receitaTotal[i];
+  
+  // Number of clients per product (approximate from mrr share)
   const products = [
-    { key:'tkAnalytics', name:'Analytics', clientKey:'analytics' },
-    { key:'tkPricing', name:'Pricing', clientKey:'pricing' },
-    { key:'tkZGO', name:'ZGO', clientKey:'zgo' },
-    { key:'tkZRobot', name:'ZRobot', clientKey:'zrobot' },
-    { key:'tkMarket', name:'Market', clientKey:'market' },
-    { key:'ticketMedio', name:'Total (Médio)', clientKey:null }
+    { key:'tkAnalytics', name:'Analytics + Pesquisa', clientKey:'analytics', color:'#3b82f6', isAnalytics:true },
+    { key:'tkPricing', name:'Pricing', clientKey:'pricing', color:'#10b981', isAnalytics:false },
+    { key:'tkZGO', name:'ZGO', clientKey:'zgo', color:'#f59e0b', isAnalytics:false },
+    { key:'tkZRobot', name:'ZRobot', clientKey:'zrobot', color:'#ef4444', isAnalytics:false },
+    { key:'tkMarket', name:'Market', clientKey:'market', color:'#8b5cf6', isAnalytics:false },
+    { key:'ticketMedio', name:'Total Médio', clientKey:null, color:'#06b6d4', isAnalytics:false }
   ];
   const grid = document.getElementById('ticketCompareGrid');
   grid.innerHTML = '';
@@ -710,11 +725,98 @@ function updateTicketCompare() {
     const pct = vA!==0?((vB-vA)/Math.abs(vA)*100):0;
     const dir = pct>0?'up':'down';
     const arrow = pct>0?'▲':'▼';
-    const clients = prod.clientKey ? (DATA.clientesByProduct[prod.clientKey][i]+' clientes') : (DATA.clientes[i]+' clientes');
+    const clients = prod.clientKey ? DATA.clientesByProduct[prod.clientKey][i] : DATA.clientes[i];
+    
+    // Faturamento total = ticket × clientes (for non-total cards)
+    let fatTotal = 0;
+    let fatPrev = 0;
+    let receitaPct = 0;
+    if(prod.clientKey) {
+      fatTotal = vB * clients;
+      fatPrev = vA * clients;
+      receitaPct = receitaMes > 0 ? (fatTotal / receitaMes * 100) : 0;
+    } else {
+      fatTotal = DATA.mrrCompetencia[i];
+      fatPrev = DATA.mrrCompetencia[p];
+      receitaPct = 100;
+    }
+    
     const card = document.createElement('div');
     card.className = 'ticket-product-card';
-    card.innerHTML = '<div class="ticket-product-name">'+prod.name+'</div><div class="ticket-product-values"><span class="ticket-product-val-a">'+fmtBRL(vA)+'</span><span style="color:#475569">→</span><span class="ticket-product-val-b">'+fmtBRL(vB)+'</span></div><div class="ticket-product-pct '+dir+'">'+arrow+' '+Math.abs(pct).toFixed(1)+'%</div><div class="ticket-product-clients">'+clients+'</div>';
+    card.style.borderTop = '2px solid ' + prod.color;
+    const clientsStr = prod.clientKey ? clients+' clientes' : DATA.clientes[i]+' clientes';
+    const fatPctStr = prod.clientKey ? '<div style="margin-top:6px;padding:4px 8px;background:'+prod.color+'20;border-radius:6px;border:1px solid '+prod.color+'40"><div style="font-size:10px;color:#64748b;font-weight:600">% da Receita</div><div style="font-size:15px;font-weight:800;color:'+prod.color+'">'+receitaPct.toFixed(1)+'%</div></div>' : '';
+    const fatStr = prod.clientKey ? '<div style="margin-top:6px"><div style="font-size:10px;color:#64748b">Faturamento Total</div><div style="font-size:13px;font-weight:700;color:#f1f5f9">'+fmtBRL(fatTotal)+'</div></div>' : '';
+    card.innerHTML = '<div class="ticket-product-name" style="color:'+prod.color+'">'+prod.name+'</div><div class="ticket-product-values"><span class="ticket-product-val-a">'+fmtBRL(vA)+'</span><span style="color:#475569">→</span><span class="ticket-product-val-b">'+fmtBRL(vB)+'</span></div><div class="ticket-product-pct '+dir+'">'+arrow+' '+Math.abs(pct).toFixed(1)+'%</div><div class="ticket-product-clients">'+clientsStr+'</div>'+fatStr+fatPctStr;
     grid.appendChild(card);
+  });
+  
+  // Update pizza chart Analytics vs Outros
+  const analyticsClients = DATA.clientesByProduct.analytics[i];
+  const analyticsTicket = DATA.tkAnalytics[i];
+  const analyticsFat = analyticsTicket * analyticsClients;
+  const outrosFat = receitaMes - analyticsFat;
+  const analyticsPct = receitaMes > 0 ? (analyticsFat/receitaMes*100) : 0;
+  const outrosPct = 100 - analyticsPct;
+  
+  if(window._pizzaChart) window._pizzaChart.destroy();
+  window._pizzaChart = new Chart(document.getElementById('chartPizzaAnalytics'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Analytics + Pesquisa ('+analyticsPct.toFixed(1)+'%)', 'Outros Produtos ('+outrosPct.toFixed(1)+'%)'],
+      datasets: [{
+        data: [analyticsFat, outrosFat],
+        backgroundColor: ['#3b82f6', '#334155'],
+        borderColor: ['#60a5fa', '#475569'],
+        borderWidth: 2,
+        hoverOffset: 12
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 }, boxWidth: 12, padding: 16 } },
+        tooltip: { backgroundColor: '#1a2236', titleColor: '#e2e8f0', bodyColor: '#e2e8f0', borderColor: '#334155', borderWidth: 1, callbacks: { label: ctx => { const v = ctx.parsed; return ctx.label.split('(')[0].trim() + ': ' + fmtBRL(v); } } },
+        datalabels: { color: '#fff', font: { weight: 'bold', size: 14 }, formatter: (v, ctx) => { const pct = (v/receitaMes*100); return pct.toFixed(1)+'%'; } }
+      }
+    },
+    plugins: [ChartDataLabels]
+  });
+  
+  // Update faturamento bar chart
+  const prodLabels = ['Analytics', 'Pricing', 'ZGO', 'ZRobot', 'Market'];
+  const prodKeys = ['tkAnalytics','tkPricing','tkZGO','tkZRobot','tkMarket'];
+  const prodClientKeys = ['analytics','pricing','zgo','zrobot','market'];
+  const prodColors = ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6'];
+  const fatDataCurr = prodKeys.map((k,idx) => DATA[k][i] * DATA.clientesByProduct[prodClientKeys[idx]][i]);
+  const fatDataPrev = prodKeys.map((k,idx) => DATA[k][p] * DATA.clientesByProduct[prodClientKeys[idx]][p]);
+  const pctData = fatDataCurr.map(v => receitaMes > 0 ? (v/receitaMes*100).toFixed(1)+'%' : '0%');
+  
+  if(window._fatChart) window._fatChart.destroy();
+  window._fatChart = new Chart(document.getElementById('chartFaturamentoProdutos'), {
+    type: 'bar',
+    data: {
+      labels: prodLabels,
+      datasets: [
+        { label: mA+'/26', data: fatDataPrev, backgroundColor: prodColors.map(c=>c+'60'), borderColor: prodColors, borderWidth: 1.5, borderRadius: 4 },
+        { label: mB+'/26', data: fatDataCurr, backgroundColor: prodColors, borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#94a3b8', font: { size: 11 } } },
+        tooltip: { backgroundColor: '#1a2236', titleColor: '#e2e8f0', bodyColor: '#e2e8f0', borderColor: '#334155', borderWidth: 1, callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.y) + ' (' + (ctx.parsed.y/receitaMes*100).toFixed(1) + '%)' } },
+        datalabels: { color: '#fff', font: { size: 10, weight: 'bold' }, anchor: 'end', align: 'top', formatter: (v, ctx) => ctx.datasetIndex===1 ? fmtBRL(v) : '' }
+      },
+      scales: {
+        x: { grid: { color: '#1e2535' }, ticks: { color: '#64748b' } },
+        y: { grid: { color: '#1e2535' }, ticks: { color: '#64748b', callback: v => fmtBRL(v) } }
+      }
+    },
+    plugins: [ChartDataLabels]
   });
 }
 
