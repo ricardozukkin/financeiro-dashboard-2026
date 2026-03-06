@@ -183,52 +183,25 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
       </div>
     </div>
 
-    <div class="kpi-grid" id="kpiGrid">
-      <div class="kpi-card" style="--accent:linear-gradient(90deg,#3b82f6,#60a5fa)">
-        <div class="kpi-label">💰 Receita Total</div>
-        <div class="kpi-value" id="kpi-receita">—</div>
-        <div class="kpi-change" id="kpi-receita-change">—</div>
-        <div class="kpi-sub" id="kpi-receita-sub">—</div><div class="kpi-sub" style="color:#93c5fd;font-size:10px;font-weight:700;margin-top:2px">💵 Base Caixa</div>
-      </div>
-      <div class="kpi-card" style="--accent:linear-gradient(90deg,#10b981,#34d399)">
-        <div class="kpi-label">📈 MRR</div>
-        <div class="kpi-value" id="kpi-mrr">—</div>
-        <div class="kpi-change" id="kpi-mrr-change">—</div>
-        <div class="kpi-sub" id="kpi-mrr-sub">Receita Recorrente</div><div class="kpi-sub" style="color:#60a5fa;font-size:10px;font-weight:700;margin-top:2px">📊 Por Competência</div>
-      </div>
-      <div class="kpi-card" style="--accent:linear-gradient(90deg,#8b5cf6,#a78bfa)">
-        <div class="kpi-label">🔄 ARR</div>
-        <div class="kpi-value" id="kpi-arr">—</div>
-        <div class="kpi-change" id="kpi-arr-change">—</div>
-        <div class="kpi-sub" id="kpi-arr-sub">Receita Recorrente Anual</div><div class="kpi-sub" style="color:#a78bfa;font-size:10px;font-weight:700;margin-top:2px">📊 Competência (MRR×12)</div>
-      </div>
-      <div class="kpi-card" style="--accent:linear-gradient(90deg,#f59e0b,#fbbf24)">
-        <div class="kpi-label">📉 EBITDA</div>
-        <div class="kpi-value" id="kpi-ebitda">—</div>
-        <div class="kpi-change" id="kpi-ebitda-change">—</div>
-        <div class="kpi-sub" id="kpi-ebitda-sub">—</div>
-      </div>
-      <div class="kpi-card" style="--accent:linear-gradient(90deg,#06b6d4,#38bdf8)">
-        <div class="kpi-label">💵 Lucro Líquido</div>
-        <div class="kpi-value" id="kpi-lucro">—</div>
-        <div class="kpi-change" id="kpi-lucro-change">—</div>
-        <div class="kpi-sub" id="kpi-lucro-sub">—</div>
-      </div>
-      <div class="kpi-card" style="--accent:linear-gradient(90deg,#ef4444,#f87171)">
-        <div class="kpi-label">🏦 Saldo de Caixa</div>
-        <div class="kpi-value" id="kpi-caixa">—</div>
-        <div class="kpi-change" id="kpi-caixa-change">—</div>
-        <div class="kpi-sub" id="kpi-caixa-sub">Saldo Final</div>
-      </div>
-      <div class="kpi-card" style="--accent:linear-gradient(90deg,#ec4899,#f472b6)">
-        <div class="kpi-label">🚨 Geração de Caixa</div>
-        <div class="kpi-value" id="kpi-geracao">—</div>
-        <div class="kpi-change" id="kpi-geracao-change">—</div>
-        <div class="kpi-sub" id="kpi-geracao-sub">—</div>
-      </div>
+    <div style="background:linear-gradient(90deg,#0f3460,#1a2e50);border:1px solid #1e3a5f;border-left:4px solid #3b82f6;border-radius:12px;padding:10px 20px;margin-bottom:12px;display:flex;align-items:center;gap:10px"><span style="font-size:16px">💵</span><span style="font-size:13px;font-weight:800;color:#60a5fa;letter-spacing:.8px;text-transform:uppercase">Regime Caixa</span><span style="font-size:11px;color:#475569;margin-left:4px">Recebimentos efetivos no mês</span></div>
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#3b82f6,#60a5fa)"><div class="kpi-label">💰 Receita Total</div><div class="kpi-value" id="kpi-receita">—</div><div class="kpi-change" id="kpi-receita-change">—</div><div class="kpi-sub" id="kpi-receita-sub">—</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#10b981,#34d399)"><div class="kpi-label">📈 MRR Caixa</div><div class="kpi-value" id="kpi-mrr-caixa">—</div><div class="kpi-change" id="kpi-mrr-caixa-change">—</div><div class="kpi-sub">Receitas Recorrentes</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#f59e0b,#fbbf24)"><div class="kpi-label">📉 EBITDA</div><div class="kpi-value" id="kpi-ebitda">—</div><div class="kpi-change" id="kpi-ebitda-change">—</div><div class="kpi-sub" id="kpi-ebitda-sub">—</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#06b6d4,#38bdf8)"><div class="kpi-label">💵 Lucro Líquido</div><div class="kpi-value" id="kpi-lucro">—</div><div class="kpi-change" id="kpi-lucro-change">—</div><div class="kpi-sub" id="kpi-lucro-sub">—</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#ef4444,#f87171)"><div class="kpi-label">🏦 Saldo de Caixa</div><div class="kpi-value" id="kpi-caixa">—</div><div class="kpi-change" id="kpi-caixa-change">—</div><div class="kpi-sub">Saldo Final</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#ec4899,#f472b6)"><div class="kpi-label">🚨 Geração de Caixa</div><div class="kpi-value" id="kpi-geracao">—</div><div class="kpi-change" id="kpi-geracao-change">—</div><div class="kpi-sub" id="kpi-geracao-sub">—</div></div>
     </div>
-
-    <!-- SAAS INDICATORS -->
+    <div style="background:linear-gradient(90deg,#1a0f3c,#251a50);border:1px solid #3b2a6e;border-left:4px solid #8b5cf6;border-radius:12px;padding:10px 20px;margin:20px 0 12px;display:flex;align-items:center;gap:10px"><span style="font-size:16px">📊</span><span style="font-size:13px;font-weight:800;color:#a78bfa;letter-spacing:.8px;text-transform:uppercase">Regime Competência</span><span style="font-size:11px;color:#475569;margin-left:4px">Receita pelo período de prestação do serviço</span></div>
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#8b5cf6,#a78bfa)"><div class="kpi-label">📈 MRR Competência</div><div class="kpi-value" id="kpi-mrr">—</div><div class="kpi-change" id="kpi-mrr-change">—</div><div class="kpi-sub" id="kpi-mrr-sub">Receita Recorrente</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#6366f1,#818cf8)"><div class="kpi-label">🔄 ARR</div><div class="kpi-value" id="kpi-arr">—</div><div class="kpi-change" id="kpi-arr-change">—</div><div class="kpi-sub" id="kpi-arr-sub">MRR × 12</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#f59e0b,#fbbf24)"><div class="kpi-label">🎫 Ticket Médio</div><div class="kpi-value" id="kpi-ticket">—</div><div class="kpi-change" id="kpi-ticket-change">—</div><div class="kpi-sub">Competência</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#10b981,#34d399)"><div class="kpi-label">💎 LTV</div><div class="kpi-value" id="kpi-ltv">—</div><div class="kpi-change" id="kpi-ltv-change">—</div><div class="kpi-sub">Lifetime Value</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#06b6d4,#38bdf8)"><div class="kpi-label">💸 CAC</div><div class="kpi-value" id="kpi-cac">R$ 66.537</div><div class="kpi-sub">Custo de Aquisição</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#3b82f6,#60a5fa)"><div class="kpi-label">📊 LTV/CAC</div><div class="kpi-value" id="kpi-ltvcac">—</div><div class="kpi-sub">Saudável acima de 3x</div></div>
+    </div>
+<!-- SAAS INDICATORS -->
     <div class="section-title">🎯 Indicadores SaaS & Clientes</div>
     <div class="kpi-grid">
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#8b5cf6,#a78bfa)">
@@ -484,6 +457,12 @@ const DATA = {
   tkZGO: [2214.50,2226.88,2198.21,2063.33,2188.16,2192.91,2197.42,2197.42,2203.65,2209.45,2212.16,2225.06],
   tkZRobot: [3310.77,3335.28,3002.10,3271.60,2994.54,2995.47,3003.38,3403.70,3407.99,3429.38,3431.03,3448.12],
   tkMarket: [564.17,564.17,564.17,564.17,564.17,564.17,564.17,564.17,564.17,564.17,564.17,564.17],
+  fatCaixaAnalytics: [610433,589073,0,0,0,0,0,0,0,0,0,0],
+  fatCaixaPricing:   [540764,544183,0,0,0,0,0,0,0,0,0,0],
+  fatCaixaZGO:       [37647,38145,0,0,0,0,0,0,0,0,0,0],
+  fatCaixaZRobot:    [69526,77462,0,0,0,0,0,0,0,0,0,0],
+  fatCaixaMarket:    [564,564,0,0,0,0,0,0,0,0,0,0],
+  receitaRecorrenteCaixa: [1258935,1249427,0,0,0,0,0,0,0,0,0,0],
   // Receita realizada / prevista
   receitaTotal: [1274778,1273452,1432916,1383160,1359823,1361841,1363451,1379084,1381791,1383671,1385000,1386000],
   receitaPrevista: [1463324,1407251,1392498,1392498,1392498,1392498,1392498,1392498,1392498,1392498,1392498,1392498],
@@ -593,63 +572,51 @@ function updateAnnualTotal() {
 
 // ===================== KPIs =====================
 function updateKPIs() {
-  const i = currentMonth;
-  const p = Math.max(0, i-1);
-  // Churn: média só dos meses fechados
-  const churnFechados = DATA.churn.filter((_,idx) => DATA.fechados[idx]);
-  const churnMedio = churnFechados.length > 0 ? churnFechados.reduce((a,b)=>a+b,0)/churnFechados.length : 0;
-  // Ciclo de venda em meses
-  const cicloMeses = (DATA.cicloVenda[i]/30.4).toFixed(1);
-  const cilcoMesesPrev = (DATA.cicloVenda[p]/30.4).toFixed(1);
-  
+  const i = currentMonth, p = Math.max(0, i-1);
+  const churnF = DATA.churn.filter((_,x) => DATA.fechados[x]);
+  const churnM = churnF.length>0?churnF.reduce((a,b)=>a+b,0)/churnF.length:0;
+  const cicloM = (DATA.cicloVenda[i]/30.4).toFixed(1);
+  const isFech = DATA.fechados[i];
+  // CAIXA
   setKpi('kpi-receita', fmtBRL(DATA.receitaTotal[i]));
   setChange('kpi-receita-change', DATA.receitaTotal[i], DATA.receitaTotal[p]);
-  setKpi('kpi-receita-sub', (DATA.fechados[i]?'Realizado':'Previsto')+' | Prev: '+fmtBRL(DATA.receitaPrevista[i]));
-  
-  setKpi('kpi-mrr', fmtBRL(DATA.mrrCompetencia[i]));
-  setChange('kpi-mrr-change', DATA.mrrCompetencia[i], DATA.mrrCompetencia[p]);
-  
-  setKpi('kpi-arr', fmtBRL(DATA.arr[i]));
-  setChange('kpi-arr-change', DATA.arr[i], DATA.arr[p]);
-  
-  const ebitdaPct = DATA.receitaTotal[i]>0 ? (DATA.ebitda[i]/DATA.receitaTotal[i]*100).toFixed(1) : 0;
+  setKpi('kpi-receita-sub', (isFech?'Realizado':'Previsto')+' | Prev: '+fmtBRL(DATA.receitaPrevista[i]));
+  setKpi('kpi-mrr-caixa', fmtBRL(DATA.mrrCaixa[i]));
+  setChange('kpi-mrr-caixa-change', DATA.mrrCaixa[i], DATA.mrrCaixa[p]);
+  const ePct = DATA.receitaTotal[i]>0?(DATA.ebitda[i]/DATA.receitaTotal[i]*100).toFixed(1):0;
   setKpi('kpi-ebitda', fmtBRL(DATA.ebitda[i]));
   setChange('kpi-ebitda-change', DATA.ebitda[i], DATA.ebitda[p]);
-  setKpi('kpi-ebitda-sub', ebitdaPct+'% da receita');
-  
+  setKpi('kpi-ebitda-sub', ePct+'% receita caixa');
   setKpi('kpi-lucro', fmtBRL(DATA.lucroLiquido[i]));
   setChange('kpi-lucro-change', DATA.lucroLiquido[i], DATA.lucroLiquido[p]);
-  const lucroPct = DATA.receitaTotal[i]>0 ? (DATA.lucroLiquido[i]/DATA.receitaTotal[i]*100).toFixed(1) : 0;
-  setKpi('kpi-lucro-sub', lucroPct+'% da receita');
-  
+  const lPct = DATA.receitaTotal[i]>0?(DATA.lucroLiquido[i]/DATA.receitaTotal[i]*100).toFixed(1):0;
+  setKpi('kpi-lucro-sub', lPct+'% receita caixa');
   setKpi('kpi-caixa', fmtBRL(DATA.saldoCaixa[i]));
   setChange('kpi-caixa-change', DATA.saldoCaixa[i], DATA.saldoCaixa[p]);
-  
   setKpi('kpi-geracao', fmtBRL(DATA.geracaoCaixa[i]));
   setChange('kpi-geracao-change', DATA.geracaoCaixa[i], DATA.geracaoCaixa[p]);
-  
-  setKpi('kpi-clientes', DATA.clientes[i]);
-  setChange('kpi-clientes-change', DATA.clientes[i], DATA.clientes[p], true);
-  setKpi('kpi-clientes-sub', DATA.meses[i]+'/26 | '+(i+1<12?DATA.clientes[i+1]+' em '+DATA.meses[i+1]:''));
-  
-  setKpi('kpi-churn', fmtPct(churnMedio));
-  setKpi('kpi-churn-sub', 'Média '+churnFechados.length+' meses fechados');
-  
+  // COMPETÊNCIA
+  setKpi('kpi-mrr', fmtBRL(DATA.mrrCompetencia[i]));
+  setChange('kpi-mrr-change', DATA.mrrCompetencia[i], DATA.mrrCompetencia[p]);
+  setKpi('kpi-arr', fmtBRL(DATA.arr[i]));
+  setChange('kpi-arr-change', DATA.arr[i], DATA.arr[p]);
   setKpi('kpi-ticket', fmtBRL(DATA.ticketMedio[i]));
   setChange('kpi-ticket-change', DATA.ticketMedio[i], DATA.ticketMedio[p]);
-  
   setKpi('kpi-ltv', fmtBRL(DATA.ltv[i]));
   setChange('kpi-ltv-change', DATA.ltv[i], DATA.ltv[p]);
-  
   setKpi('kpi-ltvcac', (DATA.ltv[i]/DATA.cac).toFixed(1)+'x');
-  
-  setKpi('kpi-ciclo', cicloMeses+' meses');
-  setKpi('kpi-ciclo-sub', DATA.meses[i]+': '+DATA.cicloVenda[i]+' dias | Prev: '+cilcoMesesPrev+' meses');
-  
+  // SAAS
+  setKpi('kpi-clientes', DATA.clientes[i]);
+  setChange('kpi-clientes-change', DATA.clientes[i], DATA.clientes[p], true);
+  setKpi('kpi-clientes-sub', DATA.meses[i]+'/26');
+  setKpi('kpi-churn', fmtPct(churnM));
+  setKpi('kpi-churn-sub', 'Média '+churnF.length+' meses fechados');
+  setKpi('kpi-ciclo', cicloM+' meses');
+  setKpi('kpi-ciclo-sub', DATA.cicloVenda[i]+' dias');
   setKpi('kpi-novos', '+'+DATA.novosClientes[i]);
-  const novosPrev = i>0?DATA.novosClientes[p]:0;
-  setChange('kpi-novos-change', DATA.novosClientes[i], novosPrev, true);
+  setChange('kpi-novos-change', DATA.novosClientes[i], i>0?DATA.novosClientes[p]:0, true);
 }
+
 // ===================== COMPARE =====================
 const compareMetrics = [
   { key:'receitaTotal', label:'Receita Total', fmt:fmtBRL, color:'#3b82f6' },
@@ -699,125 +666,44 @@ function updateCompare() {
 
 // ===================== TICKET COMPARE =====================
 function updateTicketCompare() {
-  const i = currentMonth;
-  const p = Math.max(0, i-1);
-  const mA = DATA.meses[p];
-  const mB = DATA.meses[i];
+  const i = currentMonth, p = Math.max(0, i-1);
+  const mA = DATA.meses[p], mB = DATA.meses[i];
   document.getElementById('ticketCompareLabel').textContent = mA+'/26 vs '+mB+'/26';
-  
-  // Calculate total revenue for the selected month (for % share)
-  const receitaMes = DATA.receitaTotal[i];
-  
-  // Number of clients per product (approximate from mrr share)
-  const products = [
-    { key:'tkAnalytics', name:'Analytics + Pesquisa', clientKey:'analytics', color:'#3b82f6', isAnalytics:true },
-    { key:'tkPricing', name:'Pricing', clientKey:'pricing', color:'#10b981', isAnalytics:false },
-    { key:'tkZGO', name:'ZGO', clientKey:'zgo', color:'#f59e0b', isAnalytics:false },
-    { key:'tkZRobot', name:'ZRobot', clientKey:'zrobot', color:'#ef4444', isAnalytics:false },
-    { key:'tkMarket', name:'Market', clientKey:'market', color:'#8b5cf6', isAnalytics:false },
-    { key:'ticketMedio', name:'Total Médio', clientKey:null, color:'#06b6d4', isAnalytics:false }
+  const recCaixa = DATA.receitaTotal[i], recCaixaP = DATA.receitaTotal[p];
+  const prods = [
+    {key:'tkAnalytics',name:'Analytics + Pesquisa',ck:'analytics',color:'#3b82f6',fk:'fatCaixaAnalytics'},
+    {key:'tkPricing',name:'Pricing',ck:'pricing',color:'#10b981',fk:'fatCaixaPricing'},
+    {key:'tkZGO',name:'ZGO',ck:'zgo',color:'#f59e0b',fk:'fatCaixaZGO'},
+    {key:'tkZRobot',name:'ZRobot',ck:'zrobot',color:'#ef4444',fk:'fatCaixaZRobot'},
+    {key:'tkMarket',name:'Market',ck:'market',color:'#8b5cf6',fk:'fatCaixaMarket'},
+    {key:'ticketMedio',name:'Total (MRR)',ck:null,color:'#06b6d4',fk:null}
   ];
   const grid = document.getElementById('ticketCompareGrid');
   grid.innerHTML = '';
-  products.forEach(prod => {
-    const vA = DATA[prod.key][p];
-    const vB = DATA[prod.key][i];
-    const pct = vA!==0?((vB-vA)/Math.abs(vA)*100):0;
-    const dir = pct>0?'up':'down';
-    const arrow = pct>0?'▲':'▼';
-    const clients = prod.clientKey ? DATA.clientesByProduct[prod.clientKey][i] : DATA.clientes[i];
-    
-    // Faturamento total = ticket × clientes (for non-total cards)
-    let fatTotal = 0;
-    let fatPrev = 0;
-    let receitaPct = 0;
-    if(prod.clientKey) {
-      fatTotal = vB * clients;
-      fatPrev = vA * clients;
-      receitaPct = receitaMes > 0 ? (fatTotal / receitaMes * 100) : 0;
-    } else {
-      fatTotal = DATA.mrrCompetencia[i];
-      fatPrev = DATA.mrrCompetencia[p];
-      receitaPct = 100;
-    }
-    
-    const card = document.createElement('div');
-    card.className = 'ticket-product-card';
-    card.style.borderTop = '2px solid ' + prod.color;
-    const clientsStr = prod.clientKey ? clients+' clientes' : DATA.clientes[i]+' clientes';
-    const fatPctStr = prod.clientKey ? '<div style="margin-top:6px;padding:4px 8px;background:'+prod.color+'20;border-radius:6px;border:1px solid '+prod.color+'40"><div style="font-size:10px;color:#64748b;font-weight:600">% da Receita</div><div style="font-size:15px;font-weight:800;color:'+prod.color+'">'+receitaPct.toFixed(1)+'%</div></div>' : '';
-    const fatStr = prod.clientKey ? '<div style="margin-top:6px"><div style="font-size:10px;color:#64748b">Faturamento Total</div><div style="font-size:13px;font-weight:700;color:#f1f5f9">'+fmtBRL(fatTotal)+'</div></div>' : '';
-    card.innerHTML = '<div class="ticket-product-name" style="color:'+prod.color+'">'+prod.name+'</div><div class="ticket-product-values"><span class="ticket-product-val-a">'+fmtBRL(vA)+'</span><span style="color:#475569">→</span><span class="ticket-product-val-b">'+fmtBRL(vB)+'</span></div><div class="ticket-product-pct '+dir+'">'+arrow+' '+Math.abs(pct).toFixed(1)+'%</div><div class="ticket-product-clients">'+clientsStr+'</div>'+fatStr+fatPctStr;
+  prods.forEach(prod => {
+    const vA=DATA[prod.key][p], vB=DATA[prod.key][i];
+    const pct=vA!==0?((vB-vA)/Math.abs(vA)*100):0;
+    const dir=pct>0?'up':'down', arrow=pct>0?'▲':'▼';
+    const clients=prod.ck?DATA.clientesByProduct[prod.ck][i]:DATA.clientes[i];
+    let fat=0, rPct=0;
+    if(prod.fk&&DATA[prod.fk]){fat=DATA[prod.fk][i];rPct=recCaixa>0?(fat/recCaixa*100):0;}
+    else if(!prod.ck){fat=recCaixa;rPct=100;}
+    const fatStr=prod.fk?'<div style="margin-top:6px"><div style="font-size:10px;color:#64748b">Faturamento Caixa</div><div style="font-size:13px;font-weight:700;color:#f1f5f9">'+fmtBRL(fat)+'</div></div>':'<div style="margin-top:6px"><div style="font-size:10px;color:#64748b">Receita Total Caixa</div><div style="font-size:13px;font-weight:700;color:#f1f5f9">'+fmtBRL(fat)+'</div></div>';
+    const pctStr=prod.ck?'<div style="margin-top:6px;padding:4px 8px;background:'+prod.color+'20;border-radius:6px;border:1px solid '+prod.color+'40"><div style="font-size:10px;color:#64748b;font-weight:600">% da Receita Caixa</div><div style="font-size:15px;font-weight:800;color:'+prod.color+'">'+rPct.toFixed(1)+'%</div></div>':'';
+    const card=document.createElement('div');
+    card.className='ticket-product-card';
+    card.style.borderTop='2px solid '+prod.color;
+    card.innerHTML='<div class="ticket-product-name" style="color:'+prod.color+'">'+prod.name+'</div><div style="font-size:9px;color:#475569;margin-bottom:4px">Ticket Médio (Competência)</div><div class="ticket-product-values"><span class="ticket-product-val-a">'+fmtBRL(vA)+'</span><span style="color:#475569">→</span><span class="ticket-product-val-b">'+fmtBRL(vB)+'</span></div><div class="ticket-product-pct '+dir+'">'+arrow+' '+Math.abs(pct).toFixed(1)+'%</div><div class="ticket-product-clients">'+clients+' clientes</div>'+fatStr+pctStr;
     grid.appendChild(card);
   });
-  
-  // Update pizza chart Analytics vs Outros
-  const analyticsClients = DATA.clientesByProduct.analytics[i];
-  const analyticsTicket = DATA.tkAnalytics[i];
-  const analyticsFat = analyticsTicket * analyticsClients;
-  const outrosFat = receitaMes - analyticsFat;
-  const analyticsPct = receitaMes > 0 ? (analyticsFat/receitaMes*100) : 0;
-  const outrosPct = 100 - analyticsPct;
-  
+  const aFat=DATA.fatCaixaAnalytics[i]||0, oFat=recCaixa-aFat;
+  const aPct=recCaixa>0?(aFat/recCaixa*100):0, oPct=100-aPct;
   if(window._pizzaChart) window._pizzaChart.destroy();
-  window._pizzaChart = new Chart(document.getElementById('chartPizzaAnalytics'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Analytics + Pesquisa ('+analyticsPct.toFixed(1)+'%)', 'Outros Produtos ('+outrosPct.toFixed(1)+'%)'],
-      datasets: [{
-        data: [analyticsFat, outrosFat],
-        backgroundColor: ['#3b82f6', '#334155'],
-        borderColor: ['#60a5fa', '#475569'],
-        borderWidth: 2,
-        hoverOffset: 12
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 }, boxWidth: 12, padding: 16 } },
-        tooltip: { backgroundColor: '#1a2236', titleColor: '#e2e8f0', bodyColor: '#e2e8f0', borderColor: '#334155', borderWidth: 1, callbacks: { label: ctx => { const v = ctx.parsed; return ctx.label.split('(')[0].trim() + ': ' + fmtBRL(v); } } },
-        datalabels: { color: '#fff', font: { weight: 'bold', size: 14 }, formatter: (v, ctx) => { const pct = (v/receitaMes*100); return pct.toFixed(1)+'%'; } }
-      }
-    },
-    plugins: [ChartDataLabels]
-  });
-  
-  // Update faturamento bar chart
-  const prodLabels = ['Analytics', 'Pricing', 'ZGO', 'ZRobot', 'Market'];
-  const prodKeys = ['tkAnalytics','tkPricing','tkZGO','tkZRobot','tkMarket'];
-  const prodClientKeys = ['analytics','pricing','zgo','zrobot','market'];
-  const prodColors = ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6'];
-  const fatDataCurr = prodKeys.map((k,idx) => DATA[k][i] * DATA.clientesByProduct[prodClientKeys[idx]][i]);
-  const fatDataPrev = prodKeys.map((k,idx) => DATA[k][p] * DATA.clientesByProduct[prodClientKeys[idx]][p]);
-  const pctData = fatDataCurr.map(v => receitaMes > 0 ? (v/receitaMes*100).toFixed(1)+'%' : '0%');
-  
+  window._pizzaChart=new Chart(document.getElementById('chartPizzaAnalytics'),{type:'doughnut',data:{labels:['Analytics+Pesquisa ('+aPct.toFixed(1)+'%)','Outros Produtos ('+oPct.toFixed(1)+'%)'],datasets:[{data:[aFat,oFat],backgroundColor:['#3b82f6','#334155'],borderColor:['#60a5fa','#475569'],borderWidth:2,hoverOffset:12}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},boxWidth:12,padding:16}},tooltip:{backgroundColor:'#1a2236',titleColor:'#e2e8f0',bodyColor:'#e2e8f0',borderColor:'#334155',borderWidth:1,callbacks:{label:ctx=>{const v=ctx.parsed;return ctx.label.split('(')[0].trim()+': '+fmtBRL(v);}}},datalabels:{color:'#fff',font:{weight:'bold',size:15},formatter:v=>recCaixa>0?(v/recCaixa*100).toFixed(1)+'%':''}}},plugins:[ChartDataLabels]});
+  const pL=['Analytics+Pesq.','Pricing','ZGO','ZRobot','Market'],fKs=['fatCaixaAnalytics','fatCaixaPricing','fatCaixaZGO','fatCaixaZRobot','fatCaixaMarket'],pC=['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6'];
+  const fC=fKs.map(k=>DATA[k][i]||0), fP=fKs.map(k=>DATA[k][p]||0);
   if(window._fatChart) window._fatChart.destroy();
-  window._fatChart = new Chart(document.getElementById('chartFaturamentoProdutos'), {
-    type: 'bar',
-    data: {
-      labels: prodLabels,
-      datasets: [
-        { label: mA+'/26', data: fatDataPrev, backgroundColor: prodColors.map(c=>c+'60'), borderColor: prodColors, borderWidth: 1.5, borderRadius: 4 },
-        { label: mB+'/26', data: fatDataCurr, backgroundColor: prodColors, borderRadius: 4 }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { labels: { color: '#94a3b8', font: { size: 11 } } },
-        tooltip: { backgroundColor: '#1a2236', titleColor: '#e2e8f0', bodyColor: '#e2e8f0', borderColor: '#334155', borderWidth: 1, callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.y) + ' (' + (ctx.parsed.y/receitaMes*100).toFixed(1) + '%)' } },
-        datalabels: { color: '#fff', font: { size: 10, weight: 'bold' }, anchor: 'end', align: 'top', formatter: (v, ctx) => ctx.datasetIndex===1 ? fmtBRL(v) : '' }
-      },
-      scales: {
-        x: { grid: { color: '#1e2535' }, ticks: { color: '#64748b' } },
-        y: { grid: { color: '#1e2535' }, ticks: { color: '#64748b', callback: v => fmtBRL(v) } }
-      }
-    },
-    plugins: [ChartDataLabels]
-  });
+  window._fatChart=new Chart(document.getElementById('chartFaturamentoProdutos'),{type:'bar',data:{labels:pL,datasets:[{label:mA+'/26',data:fP,backgroundColor:pC.map(c=>c+'60'),borderColor:pC,borderWidth:1.5,borderRadius:4},{label:mB+'/26',data:fC,backgroundColor:pC,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}},tooltip:{backgroundColor:'#1a2236',titleColor:'#e2e8f0',bodyColor:'#e2e8f0',borderColor:'#334155',borderWidth:1,callbacks:{label:ctx=>{const v=ctx.parsed.y,base=ctx.datasetIndex===0?recCaixaP:recCaixa,pct=base>0?(v/base*100).toFixed(1):0;return ctx.dataset.label+': '+fmtBRL(v)+' ('+pct+'%)'}}},datalabels:{color:'#fff',font:{size:10,weight:'bold'},anchor:'end',align:'top',formatter:(v,ctx)=>ctx.datasetIndex===1&&v>0?fmtBRL(v):''}},scales:{x:{grid:{color:'#1e2535'},ticks:{color:'#64748b'}},y:{grid:{color:'#1e2535'},ticks:{color:'#64748b',callback:v=>fmtBRL(v)}}}},plugins:[ChartDataLabels]});
 }
 
 // ===================== EXPENSE STRUCTURE =====================
