@@ -187,6 +187,7 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
     <div class="kpi-grid">
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#3b82f6,#60a5fa)"><div class="kpi-label">💰 Receita Total</div><div class="kpi-value" id="kpi-receita">—</div><div class="kpi-change" id="kpi-receita-change">—</div><div class="kpi-sub" id="kpi-receita-sub">—</div></div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#10b981,#34d399)"><div class="kpi-label">📈 MRR Caixa</div><div class="kpi-value" id="kpi-mrr-caixa">—</div><div class="kpi-change" id="kpi-mrr-caixa-change">—</div><div class="kpi-sub">Receitas Recorrentes</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#059669,#10b981)"><div class="kpi-label">📅 ARR Caixa</div><div class="kpi-value" id="kpi-arr-caixa">—</div><div class="kpi-change" id="kpi-arr-caixa-change">—</div><div class="kpi-sub">MRR Caixa × 12</div></div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#f59e0b,#fbbf24)"><div class="kpi-label">📉 EBITDA</div><div class="kpi-value" id="kpi-ebitda">—</div><div class="kpi-change" id="kpi-ebitda-change">—</div><div class="kpi-sub" id="kpi-ebitda-sub">—</div></div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#06b6d4,#38bdf8)"><div class="kpi-label">💵 Lucro Líquido</div><div class="kpi-value" id="kpi-lucro">—</div><div class="kpi-change" id="kpi-lucro-change">—</div><div class="kpi-sub" id="kpi-lucro-sub">—</div></div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#ef4444,#f87171)"><div class="kpi-label">🏦 Saldo de Caixa</div><div class="kpi-value" id="kpi-caixa">—</div><div class="kpi-change" id="kpi-caixa-change">—</div><div class="kpi-sub">Saldo Final</div></div>
@@ -200,6 +201,10 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#10b981,#34d399)"><div class="kpi-label">💎 LTV</div><div class="kpi-value" id="kpi-ltv">—</div><div class="kpi-change" id="kpi-ltv-change">—</div><div class="kpi-sub">Lifetime Value</div></div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#06b6d4,#38bdf8)"><div class="kpi-label">💸 CAC</div><div class="kpi-value" id="kpi-cac">R$ 66.537</div><div class="kpi-sub">Custo de Aquisição</div></div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#3b82f6,#60a5fa)"><div class="kpi-label">📊 LTV/CAC</div><div class="kpi-value" id="kpi-ltvcac">—</div><div class="kpi-sub">Saudável acima de 3x</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#f59e0b,#fbbf24)"><div class="kpi-label">📉 EBITDA</div><div class="kpi-value" id="kpi-ebitda-comp">—</div><div class="kpi-change" id="kpi-ebitda-comp-change">—</div><div class="kpi-sub" id="kpi-ebitda-comp-sub">—</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#06b6d4,#38bdf8)"><div class="kpi-label">💵 Lucro Líquido</div><div class="kpi-value" id="kpi-lucro-comp">—</div><div class="kpi-change" id="kpi-lucro-comp-change">—</div><div class="kpi-sub" id="kpi-lucro-comp-sub">—</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#ef4444,#f87171)"><div class="kpi-label">🏦 Saldo de Caixa</div><div class="kpi-value" id="kpi-caixa-comp">—</div><div class="kpi-change" id="kpi-caixa-comp-change">—</div><div class="kpi-sub">Saldo Final</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#ec4899,#f472b6)"><div class="kpi-label">🚨 Geração de Caixa</div><div class="kpi-value" id="kpi-geracao-comp">—</div><div class="kpi-change" id="kpi-geracao-comp-change">—</div><div class="kpi-sub" id="kpi-geracao-comp-sub">—</div></div>
     </div>
 <!-- SAAS INDICATORS -->
     <div class="section-title">🎯 Indicadores SaaS & Clientes</div>
@@ -583,6 +588,8 @@ function updateKPIs() {
   setKpi('kpi-receita-sub', (isFech?'Realizado':'Previsto')+' | Prev: '+fmtBRL(DATA.receitaPrevista[i]));
   setKpi('kpi-mrr-caixa', fmtBRL(DATA.mrrCaixa[i]));
   setChange('kpi-mrr-caixa-change', DATA.mrrCaixa[i], DATA.mrrCaixa[p]);
+  setKpi('kpi-arr-caixa', fmtBRL(DATA.mrrCaixa[i]*12));
+  setChange('kpi-arr-caixa-change', DATA.mrrCaixa[i]*12, DATA.mrrCaixa[p]*12);
   const ePct = DATA.receitaTotal[i]>0?(DATA.ebitda[i]/DATA.receitaTotal[i]*100).toFixed(1):0;
   setKpi('kpi-ebitda', fmtBRL(DATA.ebitda[i]));
   setChange('kpi-ebitda-change', DATA.ebitda[i], DATA.ebitda[p]);
@@ -595,6 +602,18 @@ function updateKPIs() {
   setChange('kpi-caixa-change', DATA.saldoCaixa[i], DATA.saldoCaixa[p]);
   setKpi('kpi-geracao', fmtBRL(DATA.geracaoCaixa[i]));
   setChange('kpi-geracao-change', DATA.geracaoCaixa[i], DATA.geracaoCaixa[p]);
+  const ePct2=(DATA.receitaTotal[i]?((DATA.ebitda[i]/DATA.receitaTotal[i])*100).toFixed(1):0);
+  const lPct2=(DATA.receitaTotal[i]?((DATA.lucroLiquido[i]/DATA.receitaTotal[i])*100).toFixed(1):0);
+  setKpi('kpi-ebitda-comp', fmtBRL(DATA.ebitda[i]));
+  setChange('kpi-ebitda-comp-change', DATA.ebitda[i], DATA.ebitda[p]);
+  setKpi('kpi-ebitda-comp-sub', ePct2+'% receita caixa');
+  setKpi('kpi-lucro-comp', fmtBRL(DATA.lucroLiquido[i]));
+  setChange('kpi-lucro-comp-change', DATA.lucroLiquido[i], DATA.lucroLiquido[p]);
+  setKpi('kpi-lucro-comp-sub', lPct2+'% receita caixa');
+  setKpi('kpi-caixa-comp', fmtBRL(DATA.saldoCaixa[i]));
+  setChange('kpi-caixa-comp-change', DATA.saldoCaixa[i], DATA.saldoCaixa[p]);
+  setKpi('kpi-geracao-comp', fmtBRL(DATA.geracaoCaixa[i]));
+  setChange('kpi-geracao-comp-change', DATA.geracaoCaixa[i], DATA.geracaoCaixa[p]);
   // COMPETÊNCIA
   setKpi('kpi-mrr', fmtBRL(DATA.mrrCompetencia[i]));
   setChange('kpi-mrr-change', DATA.mrrCompetencia[i], DATA.mrrCompetencia[p]);
