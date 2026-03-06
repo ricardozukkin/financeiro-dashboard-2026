@@ -1,0 +1,1 @@
+# financeiro-dashboard-2026
