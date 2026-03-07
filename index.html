@@ -183,9 +183,9 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
       </div>
       <div class="sep"></div>
       <div class="annual-total-item">
-        <div class="annual-total-label">EBITDA Médio</div>
+        <div class="annual-total-label">EBITDA Acumulado</div>
         <div class="annual-total-value" id="annualEbitdaMedio">—</div>
-        <div class="annual-total-sub" id="annualEbitdaMedioSub">Média meses fechados</div>
+        <div class="annual-total-sub" id="annualEbitdaMedioSub">—</div>
       </div>
       <div class="sep"></div>
       <div class="annual-total-item">
@@ -604,7 +604,8 @@ function updateAnnualTotal() {
   const ebitdaAcum = DATA.ebitda.filter((_,j)=>DATA.fechados[j]).reduce((a,b)=>a+b,0);
   const lucroAcum = DATA.lucroLiquido.filter((_,j)=>DATA.fechados[j]).reduce((a,b)=>a+b,0);
   const nFechados = DATA.fechados.filter(Boolean).length;
-  const ebitdaMedio = nFechados > 0 ? ebitdaAcum / nFechados : 0;
+  const eAcumPct = receitaAcum > 0 ? (ebitdaAcum/receitaAcum*100).toFixed(1) : '0.0';
+  const lAcumPct = receitaAcum > 0 ? (lucroAcum/receitaAcum*100).toFixed(1) : '0.0';
   // Nomes dos meses fechados
   const nomesFechados = DATA.meses.filter((_,j)=>DATA.fechados[j]);
   const labelMeses = nomesFechados.length > 0 ? nomesFechados.join(', ') + ' realizados' : 'Nenhum fechado';
@@ -624,11 +625,11 @@ function updateAnnualTotal() {
   setKpi('annualLucroSub', lPct+'% sobre receita');
   // Acumulado
   setKpi('annualReceitaAcum', fmtBRL(receitaAcum));
-  setKpi('annualEbitdaMedio', fmtBRL(ebitdaMedio));
+  setKpi('annualEbitdaMedio', fmtBRL(ebitdaAcum));
   setKpi('annualLucroAcum', fmtBRL(lucroAcum));
   setKpi('annualReceitaAcumSub', nFechados + (nFechados===1?' mês fechado':' meses fechados'));
-  setKpi('annualEbitdaMedioSub', 'Média ' + nFechados + (nFechados===1?' mês':' meses'));
-  setKpi('annualLucroAcumSub', nFechados + (nFechados===1?' mês fechado':' meses fechados'));
+  setKpi('annualEbitdaMedioSub', eAcumPct+'% sobre receita acum.');
+  setKpi('annualLucroAcumSub', lAcumPct+'% sobre receita acum.');
   // Meses fechados
   setKpi('annualMesesFechados', nFechados);
   setKpi('annualMesesSub', labelMeses);
