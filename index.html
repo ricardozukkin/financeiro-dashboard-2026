@@ -48,7 +48,7 @@ header p{font-size:13px;color:#64748b;margin-top:3px}
 .annual-total-label{font-size:10px;color:#64748b;font-weight:600;letter-spacing:.8px;text-transform:uppercase}
 .annual-total-value{font-size:20px;font-weight:700;color:#f1f5f9}
 .annual-total-sub{font-size:11px;color:#475569}
-.sep{width:1px;height:40px;background:#2d3748}
+.sep{width:1px;height:40px;background:#2d3748}.sep-strong{width:2px;height:48px;background:#4a5568;margin:0 8px}
 .compare-section{background:#1a1f2e;border:1px solid #2d3748;border-radius:16px;padding:24px;margin-bottom:24px}
 .compare-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
 .compare-title{font-size:15px;font-weight:700;color:#f1f5f9;display:flex;align-items:center;gap:8px}
@@ -159,27 +159,45 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
     <!-- ANNUAL TOTAL -->
     <div class="annual-total-bar" id="annualTotalBar">
       <div class="annual-total-item">
-        <div class="annual-total-label">Total Receita 2026</div>
+        <div class="annual-total-label" id="annualReceitaLabel">Receita Mês</div>
         <div class="annual-total-value" id="annualReceita">—</div>
-        <div class="annual-total-sub" id="annualReceitaSub">Realizado + Previsto</div>
+        <div class="annual-total-sub" id="annualReceitaSub">—</div>
       </div>
       <div class="sep"></div>
       <div class="annual-total-item">
-        <div class="annual-total-label">Total EBITDA 2026</div>
+        <div class="annual-total-label" id="annualEbitdaLabel">EBITDA Mês</div>
         <div class="annual-total-value" id="annualEbitda">—</div>
-        <div class="annual-total-sub" id="annualEbitdaSub">Realizado + Previsto</div>
+        <div class="annual-total-sub" id="annualEbitdaSub">—</div>
       </div>
       <div class="sep"></div>
       <div class="annual-total-item">
-        <div class="annual-total-label">Lucro Líquido 2026</div>
+        <div class="annual-total-label" id="annualLucroLabel">Lucro Líq. Mês</div>
         <div class="annual-total-value" id="annualLucro">—</div>
-        <div class="annual-total-sub" id="annualLucroSub">Realizado + Previsto</div>
+        <div class="annual-total-sub" id="annualLucroSub">—</div>
+      </div>
+      <div class="sep sep-strong"></div>
+      <div class="annual-total-item">
+        <div class="annual-total-label">Receita Acumulada</div>
+        <div class="annual-total-value" id="annualReceitaAcum">—</div>
+        <div class="annual-total-sub" id="annualReceitaAcumSub">Meses fechados</div>
+      </div>
+      <div class="sep"></div>
+      <div class="annual-total-item">
+        <div class="annual-total-label">EBITDA Médio</div>
+        <div class="annual-total-value" id="annualEbitdaMedio">—</div>
+        <div class="annual-total-sub" id="annualEbitdaMedioSub">Média meses fechados</div>
+      </div>
+      <div class="sep"></div>
+      <div class="annual-total-item">
+        <div class="annual-total-label">Lucro Acumulado</div>
+        <div class="annual-total-value" id="annualLucroAcum">—</div>
+        <div class="annual-total-sub" id="annualLucroAcumSub">Meses fechados</div>
       </div>
       <div class="sep"></div>
       <div class="annual-total-item">
         <div class="annual-total-label">Meses Fechados</div>
-        <div class="annual-total-value" id="annualMesesFechados">2</div>
-        <div class="annual-total-sub">Jan e Fev realizados</div>
+        <div class="annual-total-value" id="annualMesesFechados">—</div>
+        <div class="annual-total-sub" id="annualMesesSub">—</div>
       </div>
     </div>
 
@@ -579,23 +597,41 @@ function updateAnnualTotal() {
   const receita = DATA.receitaTotal[i];
   const ebitda = DATA.ebitda[i];
   const lucro = DATA.lucroLiquido[i];
-  const fechados = DATA.fechados.filter(Boolean).length;
-  const ePct = receita > 0 ? (ebitda / receita * 100).toFixed(1) : 0;
-  const lPct = receita > 0 ? (lucro / receita * 100).toFixed(1) : 0;
-  const bar = document.getElementById('annualTotalBar');
-  if (bar) {
-    const labels = bar.querySelectorAll('.annual-total-label');
-    if (labels[0]) labels[0].textContent = 'Receita ' + mes + '/26';
-    if (labels[1]) labels[1].textContent = 'EBITDA ' + mes + '/26';
-    if (labels[2]) labels[2].textContent = 'Lucro Líq. ' + mes + '/26';
-  }
+  const ePct = receita > 0 ? (ebitda/receita*100).toFixed(1) : 0;
+  const lPct = receita > 0 ? (lucro/receita*100).toFixed(1) : 0;
+  // Acumulado: somente meses fechados
+  const receitaAcum = DATA.receitaTotal.filter((_,j)=>DATA.fechados[j]).reduce((a,b)=>a+b,0);
+  const ebitdaAcum = DATA.ebitda.filter((_,j)=>DATA.fechados[j]).reduce((a,b)=>a+b,0);
+  const lucroAcum = DATA.lucroLiquido.filter((_,j)=>DATA.fechados[j]).reduce((a,b)=>a+b,0);
+  const nFechados = DATA.fechados.filter(Boolean).length;
+  const ebitdaMedio = nFechados > 0 ? ebitdaAcum / nFechados : 0;
+  // Nomes dos meses fechados
+  const nomesFechados = DATA.meses.filter((_,j)=>DATA.fechados[j]);
+  const labelMeses = nomesFechados.length > 0 ? nomesFechados.join(', ') + ' realizados' : 'Nenhum fechado';
+  // Labels dinâmicos do mês
+  const elLabel0 = document.getElementById('annualReceitaLabel');
+  const elLabel1 = document.getElementById('annualEbitdaLabel');
+  const elLabel2 = document.getElementById('annualLucroLabel');
+  if (elLabel0) elLabel0.textContent = 'Receita ' + mes + '/26';
+  if (elLabel1) elLabel1.textContent = 'EBITDA ' + mes + '/26';
+  if (elLabel2) elLabel2.textContent = 'Lucro Líq. ' + mes + '/26';
+  // Mês selecionado
   setKpi('annualReceita', fmtBRL(receita));
   setKpi('annualEbitda', fmtBRL(ebitda));
   setKpi('annualLucro', fmtBRL(lucro));
-  setKpi('annualMesesFechados', fechados);
   setKpi('annualReceitaSub', DATA.fechados[i] ? 'Realizado fechado' : 'Previsto');
   setKpi('annualEbitdaSub', ePct+'% sobre receita');
   setKpi('annualLucroSub', lPct+'% sobre receita');
+  // Acumulado
+  setKpi('annualReceitaAcum', fmtBRL(receitaAcum));
+  setKpi('annualEbitdaMedio', fmtBRL(ebitdaMedio));
+  setKpi('annualLucroAcum', fmtBRL(lucroAcum));
+  setKpi('annualReceitaAcumSub', nFechados + (nFechados===1?' mês fechado':' meses fechados'));
+  setKpi('annualEbitdaMedioSub', 'Média ' + nFechados + (nFechados===1?' mês':' meses'));
+  setKpi('annualLucroAcumSub', nFechados + (nFechados===1?' mês fechado':' meses fechados'));
+  // Meses fechados
+  setKpi('annualMesesFechados', nFechados);
+  setKpi('annualMesesSub', labelMeses);
 }
 
 // ===================== KPIs =====================
