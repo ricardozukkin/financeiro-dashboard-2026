@@ -199,7 +199,8 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
     </div>
     <div style="background:linear-gradient(90deg,#1a0f3c,#251a50);border:1px solid #3b2a6e;border-left:4px solid #8b5cf6;border-radius:12px;padding:10px 20px;margin:20px 0 12px;display:flex;align-items:center;gap:10px"><span style="font-size:16px">📊</span><span style="font-size:13px;font-weight:800;color:#a78bfa;letter-spacing:.8px;text-transform:uppercase">Regime Competência</span><span style="font-size:11px;color:#475569;margin-left:4px">Receita pelo período de prestação do serviço</span></div>
     <div class="kpi-grid">
-      <div class="kpi-card" style="--accent:linear-gradient(90deg,#8b5cf6,#a78bfa)"><div class="kpi-label">📈 MRR Competência</div><div class="kpi-value" id="kpi-mrr">—</div><div class="kpi-change" id="kpi-mrr-change">—</div><div class="kpi-sub" id="kpi-mrr-sub">Receita Recorrente</div></div>
+      <div class="kpi-card" style="--accent:linear-gradient(90deg,#10b981,#34d399)"><div class="kpi-label">💰 Receita Total</div><div class="kpi-value" id="kpi-receita-comp">—</div><div class="kpi-change" id="kpi-receita-comp-change">—</div><div class="kpi-sub" id="kpi-receita-comp-sub">—</div></div>
+            <div class="kpi-card" style="--accent:linear-gradient(90deg,#8b5cf6,#a78bfa)"><div class="kpi-label">📈 MRR Competência</div><div class="kpi-value" id="kpi-mrr">—</div><div class="kpi-change" id="kpi-mrr-change">—</div><div class="kpi-sub" id="kpi-mrr-sub">Receita Recorrente</div></div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#6366f1,#818cf8)"><div class="kpi-label">🔄 ARR</div><div class="kpi-value" id="kpi-arr">—</div><div class="kpi-change" id="kpi-arr-change">—</div><div class="kpi-sub" id="kpi-arr-sub">MRR × 12</div></div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#f59e0b,#fbbf24)"><div class="kpi-label">📉 EBITDA</div><div class="kpi-value" id="kpi-ebitda-comp">—</div><div class="kpi-change" id="kpi-ebitda-comp-change">—</div><div class="kpi-sub" id="kpi-ebitda-comp-sub">—</div></div>
       
@@ -626,17 +627,26 @@ function updateKPIs() {
   setChange('kpi-geracao-change', DATA.geracaoCaixa[i], DATA.geracaoCaixa[p]);
   const ePct2=(DATA.receitaTotal[i]?((DATA.ebitda[i]/DATA.receitaTotal[i])*100).toFixed(1):0);
   const lPct2=(DATA.receitaTotal[i]?((DATA.lucroLiquido[i]/DATA.receitaTotal[i])*100).toFixed(1):0);
-  setKpi('kpi-ebitda-comp', fmtBRL(DATA.ebitda[i]));
-  setChange('kpi-ebitda-comp-change', DATA.ebitda[i], DATA.ebitda[p]);
-  setKpi('kpi-ebitda-comp-sub', ePct2+'% receita caixa');
-  setKpi('kpi-lucro-comp', fmtBRL(DATA.lucroLiquido[i]));
-  setChange('kpi-lucro-comp-change', DATA.lucroLiquido[i], DATA.lucroLiquido[p]);
-  setKpi('kpi-lucro-comp-sub', lPct2+'% receita caixa');
+  const ebitdaComp = DATA.mrrCompetencia[i] - (DATA.receitaTotal[i] - DATA.ebitda[i]);
+  const ebitdaCompPrev = DATA.mrrCompetencia[p] - (DATA.receitaTotal[p] - DATA.ebitda[p]);
+  const ebitdaCompPct = DATA.mrrCompetencia[i] > 0 ? (ebitdaComp / DATA.mrrCompetencia[i] * 100).toFixed(1) : 0;
+  setKpi('kpi-ebitda-comp', fmtBRL(ebitdaComp));
+  setChange('kpi-ebitda-comp-change', ebitdaComp, ebitdaCompPrev);
+  setKpi('kpi-ebitda-comp-sub', ebitdaCompPct+'% receita comp');
+  const lucroComp = DATA.mrrCompetencia[i] - (DATA.receitaTotal[i] - DATA.lucroLiquido[i]);
+  const lucroCompPrev = DATA.mrrCompetencia[p] - (DATA.receitaTotal[p] - DATA.lucroLiquido[p]);
+  const lucroCompPct = DATA.mrrCompetencia[i] > 0 ? (lucroComp / DATA.mrrCompetencia[i] * 100).toFixed(1) : 0;
+  setKpi('kpi-lucro-comp', fmtBRL(lucroComp));
+  setChange('kpi-lucro-comp-change', lucroComp, lucroCompPrev);
+  setKpi('kpi-lucro-comp-sub', lucroCompPct+'% receita comp');
   setKpi('kpi-caixa-comp', fmtBRL(DATA.saldoCaixa[i]));
   setChange('kpi-caixa-comp-change', DATA.saldoCaixa[i], DATA.saldoCaixa[p]);
   setKpi('kpi-geracao-comp', fmtBRL(DATA.geracaoCaixa[i]));
   setChange('kpi-geracao-comp-change', DATA.geracaoCaixa[i], DATA.geracaoCaixa[p]);
   // COMPETÊNCIA
+  setKpi('kpi-receita-comp', fmtBRL(DATA.mrrCompetencia[i]));
+  setChange('kpi-receita-comp-change', DATA.mrrCompetencia[i], DATA.mrrCompetencia[p]);
+  setKpi('kpi-receita-comp-sub', '');
   setKpi('kpi-mrr', fmtBRL(DATA.mrrCompetencia[i]));
   setChange('kpi-mrr-change', DATA.mrrCompetencia[i], DATA.mrrCompetencia[p]);
   setKpi('kpi-arr', fmtBRL(DATA.arr[i]));
