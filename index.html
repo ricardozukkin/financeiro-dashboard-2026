@@ -234,25 +234,25 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
       </div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#f59e0b,#fbbf24)">
         <div class="kpi-label">🎫 Ticket Médio</div>
-        <div class="kpi-value" id="kpi-ticket">—</div>
-        <div class="kpi-change" id="kpi-ticket-change">—</div>
+        <div class="kpi-value" id="kpi-saas-ticket">—</div>
+        <div class="kpi-change" id="kpi-saas-ticket-change">—</div>
         <div class="kpi-sub" id="kpi-ticket-sub">—</div>
       </div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#10b981,#34d399)">
         <div class="kpi-label">💎 LTV</div>
-        <div class="kpi-value" id="kpi-ltv">—</div>
-        <div class="kpi-change" id="kpi-ltv-change">—</div>
+        <div class="kpi-value" id="kpi-saas-ltv">—</div>
+        <div class="kpi-change" id="kpi-saas-ltv-change">—</div>
         <div class="kpi-sub" id="kpi-ltv-sub">Lifetime Value</div>
       </div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#06b6d4,#38bdf8)">
         <div class="kpi-label">💸 CAC</div>
-        <div class="kpi-value" id="kpi-cac">R$ 66.537</div>
+        <div class="kpi-value" id="kpi-saas-cac">R$ 66.537</div>
         <div class="kpi-sub">Custo de Aquisição</div>
         <div class="kpi-sub" style="color:#475569;font-size:10px;margin-top:4px">Vendas+Mkt ÷ Novos Clientes</div>
       </div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#3b82f6,#60a5fa)">
         <div class="kpi-label">📊 LTV/CAC</div>
-        <div class="kpi-value" id="kpi-ltvcac">—</div>
+        <div class="kpi-value" id="kpi-saas-ltvcac">—</div>
         <div class="kpi-sub">Saudável acima de 3x</div>
       </div>
       <div class="kpi-card" style="--accent:linear-gradient(90deg,#f97316,#fb923c)">
@@ -666,6 +666,15 @@ function updateKPIs() {
   setKpi('kpi-ciclo-sub', DATA.cicloVenda[i]+' dias');
   setKpi('kpi-novos', '+'+DATA.novosClientes[i]);
   setChange('kpi-novos-change', DATA.novosClientes[i], i>0?DATA.novosClientes[p]:0, true);
+  // SaaS Ticket/LTV/CAC (Competência)
+  setKpi('kpi-saas-ticket', fmtBRL(DATA.ticketMedio[i]));
+  setChange('kpi-saas-ticket-change', DATA.ticketMedio[i], DATA.ticketMedio[p]);
+  setKpi('kpi-saas-ticket-sub', 'Competência');
+  setKpi('kpi-saas-ltv', fmtBRL(DATA.ltv[i]));
+  setChange('kpi-saas-ltv-change', DATA.ltv[i], DATA.ltv[p]);
+  setKpi('kpi-saas-ltv-sub', 'Lifetime Value');
+  setKpi('kpi-saas-cac', fmtBRL(DATA.cac));
+  setKpi('kpi-saas-ltvcac', (DATA.ltv[i]/DATA.cac).toFixed(1)+'x');
 }
 
 // ===================== COMPARE =====================
