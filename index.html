@@ -549,6 +549,7 @@ function onFilterChange() {
   document.getElementById('filter-status-info').textContent =
     isFechado ? mB+'/26 = Realizado fechado' : mB+'/26 = Previsão orçamentária';
   updateKPIs();
+  updateAnnualTotal();
   updateCompare();
   updateTicketCompare();
   updateExpenseStructure();
@@ -573,18 +574,28 @@ function initDashboard() {
 }
 
 function updateAnnualTotal() {
-  // Sum realizado + previsão
-  const totalReceita = DATA.receitaTotal.reduce((a,b)=>a+b,0);
-  const totalEbitda = DATA.ebitda.reduce((a,b)=>a+b,0);
-  const totalLucro = DATA.lucroLiquido.reduce((a,b)=>a+b,0);
+  const i = parseInt(document.getElementById('filterMonth').value);
+  const mes = DATA.meses[i];
+  const receita = DATA.receitaTotal[i];
+  const ebitda = DATA.ebitda[i];
+  const lucro = DATA.lucroLiquido[i];
   const fechados = DATA.fechados.filter(Boolean).length;
-  setKpi('annualReceita', fmtBRL(totalReceita));
-  setKpi('annualEbitda', fmtBRL(totalEbitda));
-  setKpi('annualLucro', fmtBRL(totalLucro));
+  const ePct = receita > 0 ? (ebitda / receita * 100).toFixed(1) : 0;
+  const lPct = receita > 0 ? (lucro / receita * 100).toFixed(1) : 0;
+  const bar = document.getElementById('annualTotalBar');
+  if (bar) {
+    const labels = bar.querySelectorAll('.annual-total-label');
+    if (labels[0]) labels[0].textContent = 'Receita ' + mes + '/26';
+    if (labels[1]) labels[1].textContent = 'EBITDA ' + mes + '/26';
+    if (labels[2]) labels[2].textContent = 'Lucro Líq. ' + mes + '/26';
+  }
+  setKpi('annualReceita', fmtBRL(receita));
+  setKpi('annualEbitda', fmtBRL(ebitda));
+  setKpi('annualLucro', fmtBRL(lucro));
   setKpi('annualMesesFechados', fechados);
-  setKpi('annualReceitaSub', fechados+' realiz. + '+(12-fechados)+' prev.');
-  setKpi('annualEbitdaSub', 'Margem '+(totalEbitda/totalReceita*100).toFixed(1)+'%');
-  setKpi('annualLucroSub', 'Margem '+(totalLucro/totalReceita*100).toFixed(1)+'%');
+  setKpi('annualReceitaSub', DATA.fechados[i] ? 'Realizado fechado' : 'Previsto');
+  setKpi('annualEbitdaSub', ePct+'% sobre receita');
+  setKpi('annualLucroSub', lPct+'% sobre receita');
 }
 
 // ===================== KPIs =====================
