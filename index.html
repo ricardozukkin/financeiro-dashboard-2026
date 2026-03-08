@@ -318,8 +318,8 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
         <div class="chart-wrap"><canvas id="chartAnalyticsReceita"></canvas></div>
       </div>
       <div class="chart-card">
-        <div class="chart-title"><span class="dot" style="background:#8b5cf6"></span> MRR — Competência vs Caixa</div>
-        <div class="chart-wrap"><canvas id="chartMrrComp"></canvas></div>
+        <div class="chart-title"><span class="dot" style="background:#f59e0b"></span> % Pessoal Op. sobre Receita Analytics</div>
+        <div class="chart-wrap"><canvas id="chartAnalyticsPct"></canvas></div>
       </div>
     </div>
 
@@ -329,6 +329,12 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
         <div class="chart-title"><span class="dot" style="background:#10b981"></span> Evolução ARR 2026</div>
         <div class="chart-wrap"><canvas id="chartARR"></canvas></div>
       </div>
+      <div class="chart-card">
+        <div class="chart-title"><span class="dot" style="background:#8b5cf6"></span> MRR — Competência vs Caixa</div>
+        <div class="chart-wrap"><canvas id="chartMrrComp"></canvas></div>
+      </div>
+    </div>
+    <div class="charts-grid single">
       <div class="chart-card">
         <div class="chart-title"><span class="dot" style="background:#f59e0b"></span> Clientes vs Ticket Médio</div>
         <div class="chart-wrap"><canvas id="chartCombo"></canvas></div>
@@ -1116,6 +1122,66 @@ function renderAllCharts() {
       scales:{
         x:{grid:{color:'#1e2535'},ticks:{color:'#64748b'}},
         y:{grid:{color:'#1e2535'},ticks:{color:'#64748b',callback:v=>'R$'+(v/1000).toFixed(0)+'K'}}
+      }
+    },
+    plugins:[ChartDataLabels]
+  });
+
+  // ANALYTICS PCT PESSOAL OPERACIONAL
+  new Chart(document.getElementById('chartAnalyticsPct'), {
+    type:'line',
+    data:{
+      labels:DATA.meses,
+      datasets:[
+        {
+          label:'% Pessoal Op. / Receita Analytics',
+          data:[72.8,66.1,57.0,60.4,61.0,62.4,62.6,62.4,62.4,62.4,62.4,62.4],
+          borderColor:'#f59e0b',
+          backgroundColor:'#f59e0b20',
+          fill:true,
+          tension:.4,
+          borderWidth:2.5,
+          pointBackgroundColor:'#f59e0b',
+          pointRadius:4,
+          pointHoverRadius:7
+        },
+        {
+          label:'Meta (60%)',
+          data:[60,60,60,60,60,60,60,60,60,60,60,60],
+          borderColor:'#10b981',
+          backgroundColor:'transparent',
+          fill:false,
+          tension:0,
+          borderWidth:2,
+          borderDash:[6,4],
+          pointRadius:0,
+          pointHoverRadius:0
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{color:'#94a3b8',font:{size:11}}},
+        tooltip:{...tip,callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(1)+'%'}},
+        datalabels:{
+          color:'#fff',
+          font:{size:9,weight:'bold'},
+          anchor:'top',
+          align:'top',
+          formatter:(v,ctx)=>ctx.datasetIndex===0?v.toFixed(1)+'%':'',
+          display:(ctx)=>ctx.datasetIndex===0
+        }
+      },
+      scales:{
+        x:{grid:{color:'#1e2535'},ticks:{color:'#64748b'}},
+        y:{
+          grid:{color:'#1e2535'},
+          ticks:{color:'#64748b',callback:v=>v+'%'},
+          min:40,
+          max:85
+        }
       }
     },
     plugins:[ChartDataLabels]
