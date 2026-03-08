@@ -794,7 +794,7 @@ function updateTicketCompare() {
     {key:'ticketMedio',name:'Total (MRR)',ck:null,color:'#06b6d4',fk:null}
   ];
   const grid = document.getElementById('ticketCompareGrid');
-  grid.innerHTML = '';
+  if(grid) grid.innerHTML = '';
   prods.forEach(prod => {
     const vA=DATA[prod.key][p], vB=DATA[prod.key][i];
     const pct=vA!==0?((vB-vA)/Math.abs(vA)*100):0;
@@ -809,7 +809,7 @@ function updateTicketCompare() {
     card.className='ticket-product-card';
     card.style.borderTop='2px solid '+prod.color;
     card.innerHTML='<div class="ticket-product-name" style="color:'+prod.color+'">'+prod.name+'</div><div style="font-size:9px;color:#475569;margin-bottom:4px">Ticket Médio (Competência)</div><div class="ticket-product-values"><span class="ticket-product-val-a">'+fmtBRL(vA)+'</span><span style="color:#475569">→</span><span class="ticket-product-val-b">'+fmtBRL(vB)+'</span></div><div class="ticket-product-pct '+dir+'">'+arrow+' '+Math.abs(pct).toFixed(1)+'%</div><div class="ticket-product-clients">'+clients+' clientes</div>'+fatStr+pctStr;
-    grid.appendChild(card);
+    if(grid) grid.appendChild(card);
   });
   const aFat=DATA.fatCaixaAnalytics[i]||0, oFat=recCaixa-aFat;
   const aPct=recCaixa>0?(aFat/recCaixa*100):0, oPct=100-aPct;
