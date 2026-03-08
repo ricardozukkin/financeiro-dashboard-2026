@@ -344,43 +344,14 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
     <!-- FLUXO DE CAIXA -->
     <div class="charts-grid">
       <div class="chart-card">
-        <div class="chart-title"><span class="dot" style="background:#10b981"></span> Fluxo de Caixa — Saldo Final Mensal</div>
-        <div class="chart-wrap"><canvas id="chartCaixa"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-title"><span class="dot" style="background:#06b6d4"></span> Entradas vs Saídas Mensais</div>
-        <div class="chart-wrap"><canvas id="chartFluxo"></canvas></div>
-      </div>
-    </div>
-
-    <!-- TICKET MÉDIO POR PRODUTO -->
-    <div class="section-title">🎫 Ticket Médio por Produto</div>
-    <div class="compare-section">
-      <div class="compare-header">
-        <div class="compare-title">🎫 Ticket Médio por Produto — Comparação</div>
-        <div style="font-size:12px;color:#64748b;" id="ticketCompareLabel">Jan/26 vs Fev/26</div>
-      </div>
-      <div class="ticket-compare-grid" id="ticketCompareGrid"></div>
-      <div class="charts-grid" style="margin-bottom:16px">
-        <div class="chart-card">
           <div class="chart-title"><span class="dot" style="background:#3b82f6"></span> Analytics+Pesquisa vs Outros — % sobre Receita</div>
           <div class="chart-wrap"><canvas id="chartPizzaAnalytics"></canvas></div>
         </div>
-        <div class="chart-card">
-          <div class="chart-title"><span class="dot" style="background:#10b981"></span> Faturamento Total por Produto — Mês Selecionado</div>
-          <div class="chart-wrap"><canvas id="chartFaturamentoProdutos"></canvas></div>
-        </div>
-      </div>
-      <div class="charts-grid">
-        <div class="chart-card">
+      <div class="chart-card">
           <div class="chart-title">Ticket Médio por Produto (Jan–Jun)</div>
           <div class="chart-wrap tall"><canvas id="chartTicket"></canvas></div>
         </div>
-        <div class="chart-card">
-          <div class="chart-title">MRR Evolução Mensal</div>
-          <div class="chart-wrap tall"><canvas id="chartMrr"></canvas></div>
-        </div>
-      </div>
+    </div>
     </div>
 
     <!-- COMPOSIÇÃO DE DESPESAS -->
@@ -448,7 +419,33 @@ footer{text-align:center;padding:24px;font-size:12px;color:#334155;border-top:1p
       <div class="chart-wrap tall"><canvas id="chartBudget"></canvas></div>
     </div>
 
-  </div><!-- .main -->
+  
+    <!-- ANÁLISE DESPESAS PREVISTO vs REALIZADO -->
+    <div class="section-title">🔍 Análise de Despesas — Previsto vs Realizado</div>
+    <div class="dre-section" style="margin-bottom:24px">
+      <div class="dre-title" style="margin-bottom:20px">📊 Desvio por Categoria — % sobre Receita (Meta vs Jan/26 e Fev/26 realizados)</div>
+      
+      <!-- Tabela de despesas -->
+      <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:28px">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:10px 14px;background:#0f1117;color:#64748b;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #2d3748">Categoria</th>
+            <th style="text-align:right;padding:10px 14px;background:#0f1117;color:#64748b;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #2d3748">Meta (%)</th>
+            <th style="text-align:right;padding:10px 14px;background:#0f1117;color:#64748b;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #2d3748">Jan/26 Real.</th>
+            <th style="text-align:right;padding:10px 14px;background:#0f1117;color:#64748b;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #2d3748">Desvio Jan</th>
+            <th style="text-align:right;padding:10px 14px;background:#0f1117;color:#64748b;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #2d3748">Fev/26 Real.</th>
+            <th style="text-align:right;padding:10px 14px;background:#0f1117;color:#64748b;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #2d3748">Desvio Fev</th>
+            <th style="text-align:right;padding:10px 14px;background:#0f1117;color:#64748b;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #2d3748">Status</th>
+          </tr>
+        </thead>
+        <tbody id="despAnaliseBody"></tbody>
+      </table>
+
+      <!-- Cards de alertas e ações -->
+      <div class="dre-title" style="margin-bottom:16px">⚠️ Alertas Críticos e Ações Recomendadas</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:8px" id="despAlertsGrid"></div>
+    </div>
+    </div><!-- .main -->
 
   <footer>Dashboard Financeiro CFO · Zukkin 2026 · Dados: Google Sheets Financeiro-2026 · Gerado em Mar/2026</footer>
 </div><!-- #dashboard-content -->
@@ -598,6 +595,7 @@ function initDashboard() {
   });
   onFilterChange();
   renderAllCharts();
+  initDespAnalise();
   updateAnnualTotal();
 }
 
@@ -820,8 +818,7 @@ function updateTicketCompare() {
   window._pizzaChart=new Chart(document.getElementById('chartPizzaAnalytics'),{type:'doughnut',data:{labels:['Analytics+Pesquisa ('+aPct.toFixed(1)+'%)','Outros Produtos ('+oPct.toFixed(1)+'%)'],datasets:[{data:[aFat,oFat],backgroundColor:['#3b82f6','#334155'],borderColor:['#60a5fa','#475569'],borderWidth:2,hoverOffset:12}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},boxWidth:12,padding:16}},tooltip:{backgroundColor:'#1a2236',titleColor:'#e2e8f0',bodyColor:'#e2e8f0',borderColor:'#334155',borderWidth:1,callbacks:{label:ctx=>{const v=ctx.parsed;return ctx.label.split('(')[0].trim()+': '+fmtBRL(v);}}},datalabels:{color:'#fff',font:{weight:'bold',size:15},formatter:v=>recCaixa>0?(v/recCaixa*100).toFixed(1)+'%':''}}},plugins:[ChartDataLabels]});
   const pL=['Analytics+Pesq.','Pricing','ZGO','ZRobot','Market'],fKs=['fatCaixaAnalytics','fatCaixaPricing','fatCaixaZGO','fatCaixaZRobot','fatCaixaMarket'],pC=['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6'];
   const fC=fKs.map(k=>DATA[k][i]||0), fP=fKs.map(k=>DATA[k][p]||0);
-  if(window._fatChart) window._fatChart.destroy();
-  window._fatChart=new Chart(document.getElementById('chartFaturamentoProdutos'),{type:'bar',data:{labels:pL,datasets:[{label:mA+'/26',data:fP,backgroundColor:pC.map(c=>c+'60'),borderColor:pC,borderWidth:1.5,borderRadius:4},{label:mB+'/26',data:fC,backgroundColor:pC,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}},tooltip:{backgroundColor:'#1a2236',titleColor:'#e2e8f0',bodyColor:'#e2e8f0',borderColor:'#334155',borderWidth:1,callbacks:{label:ctx=>{const v=ctx.parsed.y,base=ctx.datasetIndex===0?recCaixaP:recCaixa,pct=base>0?(v/base*100).toFixed(1):0;return ctx.dataset.label+': '+fmtBRL(v)+' ('+pct+'%)'}}},datalabels:{color:'#fff',font:{size:10,weight:'bold'},anchor:'end',align:'top',formatter:(v,ctx)=>ctx.datasetIndex===1&&v>0?fmtBRL(v):''}},scales:{x:{grid:{color:'#1e2535'},ticks:{color:'#64748b'}},y:{grid:{color:'#1e2535'},ticks:{color:'#64748b',callback:v=>fmtBRL(v)}}}},plugins:[ChartDataLabels]});
+  
 }
 
 // ===================== EXPENSE STRUCTURE =====================
@@ -1243,11 +1240,7 @@ function renderAllCharts() {
     options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:16,color:'#94a3b8'}}, tooltip:tip}, scales:{x:{grid:{color:'#1e2535'},ticks:{color:'#64748b'}}, y:{grid:{color:'#1e2535'},ticks:{color:'#64748b',callback:v=>'R$'+v.toLocaleString('pt-BR')}}} }
   });
 
-  // MRR EVOLUÇÃO
-  new Chart(document.getElementById('chartMrr'), {
-    type:'line', data:{ labels:months6, datasets:[{ label:'MRR', data:DATA.mrrCompetencia.slice(0,6), borderColor:'#8b5cf6', backgroundColor:'#8b5cf620', tension:.4, fill:true, pointBackgroundColor:'#8b5cf6', borderWidth:2, pointRadius:4 }]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:tip}, scales:{x:{grid:{color:'#1e2535'},ticks:{color:'#64748b'}}, y:{grid:{color:'#1e2535'},ticks:{color:'#64748b',callback:v=>'R$'+(v/1000000).toFixed(2)+'M'}}} }
-  });
+  
 
   // BUDGET / PROJEÇÃO ANUAL - com valores nas barras e previsto+realizado
   const budgetData = DATA.receitaPrevista;
@@ -1272,6 +1265,94 @@ function renderAllCharts() {
   // Initial desp chart
   updateDespChart();
 }
+
+  // ===================== ANÁLISE DESPESAS =====================
+  function initDespAnalise() {
+    const despData = [
+      { label:'Pessoal Administrativo', meta:24.65, jan:28.41, fev:26.5,
+        alertLevel: 'medium',
+        insight: 'Acima da meta nos dois meses. Fev/26 melhorou (+7,5% vs meta). Tendência de normalização.',
+        acoes: ['Revisar headcount administrativo e cargos em aberto', 'Mapear horas extras e adiantamentos de férias', 'Meta: reduzir para 25% até Jun/26 com reposicionamento de equipe'] },
+      { label:'Pessoal Operacional', meta:31.00, jan:34.87, fev:30.59,
+        alertLevel: 'low',
+        insight: 'Jan/26 acima (+12,5%), Fev/26 normalizou (-1,3%). Provável efeito sazonal de janeiro.',
+        acoes: ['Monitorar de perto Mar/26 para confirmar tendência de normalização', 'Avaliar modelo de contratação de autônomos vs CLT em períodos de pico'] },
+      { label:'Diretoria', meta:7.83, jan:7.84, fev:8.64,
+        alertLevel: 'medium',
+        insight: 'Fev/26 subiu +10,3% sobre a meta. Possível pró-labore ou bônus não orçados.',
+        acoes: ['Revisar política de pró-labore e alinhar com orçamento', 'Verificar se há despesas pessoais reclassificadas como Diretoria'] },
+      { label:'Tecnologia (AWS+SaaS)', meta:12.42, jan:12.93, fev:13.55,
+        alertLevel: 'medium',
+        insight: 'Crescimento consistente: +4% Jan e +9% Fev. Tendência de alta preocupante.',
+        acoes: ['Realizar auditoria de licenças e SaaS não utilizados', 'Renegociar contratos AWS — revisar reservas de instâncias (Savings Plans)', 'Consolidar ferramentas duplicadas entre equipes'] },
+      { label:'Comerciais', meta:1.31, jan:3.18, fev:4.18,
+        alertLevel: 'critical',
+        insight: '🚨 CRÍTICO: +143% Jan e +219% Fev sobre a meta. Maior desvio relativo do portfólio.',
+        acoes: ['Mapear urgentemente todos os gastos comerciais de Jan e Fev', 'Identificar comissões, eventos ou viagens não orçados', 'Rever política de gastos comerciais com teto mensal aprovado', 'Criar centro de custo específico com aprovação de gestor'] },
+      { label:'Marketing', meta:0.35, jan:0.47, fev:0.49,
+        alertLevel: 'medium',
+        insight: 'Valor absoluto pequeno, mas desvio de +34-40%. Monitorar crescimento.',
+        acoes: ['Definir budget mensal de marketing com aprovação prévia', 'Avaliar ROI de cada canal antes de novos investimentos'] },
+      { label:'Serviços Gerais', meta:0.72, jan:1.65, fev:3.28,
+        alertLevel: 'critical',
+        insight: '🚨 CRÍTICO: +129% Jan e +356% Fev. Despesas sem classificação adequada ou surpresas pontuais.',
+        acoes: ['Auditar todas as despesas classificadas como Serviços Gerais em Jan/Fev', 'Verificar se há serviços recorrentes não orçados', 'Criar política de aprovação prévia para despesas acima de R$500', 'Reclassificar itens recorrentes em categorias específicas'] },
+      { label:'Impostos s/ Lucro', meta:4.62, jan:16.39, fev:5.10,
+        alertLevel: 'medium',
+        insight: 'Jan/26 muito alto (+255%): provável pagamento anual/trimestral ou ajuste de IRPJ. Fev normalizou.',
+        acoes: ['Confirmar se há parcelamento de IRPJ/CSLL para 2026', 'Ajustar provisionamento mensal para evitar impacto pontual', 'Avaliar regime tributário (Lucro Real vs Presumido) com contabilidade'] },
+      { label:'Impostos s/ Receita', meta:5.24, jan:3.66, fev:3.46,
+        alertLevel: 'low',
+        insight: '✅ POSITIVO: Ambos os meses abaixo da meta (-30% e -34%). Possível benefício fiscal ou revisão de alíquota.',
+        acoes: ['Confirmar se há incentivo fiscal sendo aproveitado', 'Verificar se a alíquota efetiva está correta para o volume atual'] }
+    ];
+
+    // Populate table
+    const tbody = document.getElementById('despAnaliseBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    despData.forEach(d => {
+      const devJan = ((d.jan - d.meta) / d.meta * 100);
+      const devFev = ((d.fev - d.meta) / d.meta * 100);
+      const devJanStr = (devJan > 0 ? '+' : '') + devJan.toFixed(1) + '%';
+      const devFevStr = (devFev > 0 ? '+' : '') + devFev.toFixed(1) + '%';
+      const janClass = devJan > 20 ? 'neg' : devJan > 0 ? 'class="kpi-change neutral" style="color:#f59e0b"' : 'pos';
+      const fevClass = devFev > 20 ? 'neg' : devFev > 0 ? '' : 'pos';
+      
+      const statusIcon = d.alertLevel === 'critical' ? '🔴' : d.alertLevel === 'medium' ? '🟡' : '🟢';
+      const statusLabel = d.alertLevel === 'critical' ? 'CRÍTICO' : d.alertLevel === 'medium' ? 'ATENÇÃO' : 'OK';
+      const statusColor = d.alertLevel === 'critical' ? '#ef4444' : d.alertLevel === 'medium' ? '#f59e0b' : '#10b981';
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td style="color:#e2e8f0;font-weight:600">${d.label}</td>
+        <td style="text-align:right;color:#64748b">${d.meta.toFixed(2)}%</td>
+        <td style="text-align:right;color:#e2e8f0">${d.jan.toFixed(2)}%</td>
+        <td style="text-align:right;font-weight:700;color:${devJan>20?'#ef4444':devJan>5?'#f59e0b':'#10b981'}">${devJanStr}</td>
+        <td style="text-align:right;color:#e2e8f0">${d.fev.toFixed(2)}%</td>
+        <td style="text-align:right;font-weight:700;color:${devFev>20?'#ef4444':devFev>5?'#f59e0b':'#10b981'}">${devFevStr}</td>
+        <td style="text-align:right"><span style="background:${statusColor}20;border:1px solid ${statusColor}40;border-radius:12px;padding:3px 10px;font-size:10px;color:${statusColor};font-weight:700">${statusIcon} ${statusLabel}</span></td>`;
+      tbody.appendChild(tr);
+    });
+
+    // Populate alerts grid
+    const grid = document.getElementById('despAlertsGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    const criticals = despData.filter(d => d.alertLevel === 'critical' || d.alertLevel === 'medium');
+    criticals.forEach(d => {
+      const color = d.alertLevel === 'critical' ? '#ef4444' : '#f59e0b';
+      const icon = d.alertLevel === 'critical' ? '🚨' : '⚠️';
+      const card = document.createElement('div');
+      card.style.cssText = `background:#1a1f2e;border:1px solid ${color}40;border-left:4px solid ${color};border-radius:12px;padding:18px 20px`;
+      card.innerHTML = `<div style="font-size:13px;font-weight:700;color:${color};margin-bottom:8px">${icon} ${d.label}</div>
+        <div style="font-size:11px;color:#94a3b8;margin-bottom:12px;line-height:1.5">${d.insight}</div>
+        <div style="font-size:11px;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">Ações Recomendadas:</div>
+        <ul style="list-style:none;padding:0;margin:0">${d.acoes.map(a => `<li style="font-size:12px;color:#cbd5e1;padding:4px 0;border-bottom:1px solid #1e2535;display:flex;gap:8px"><span style="color:${color};flex-shrink:0">›</span>${a}</li>`).join('')}</ul>`;
+      grid.appendChild(card);
+    });
+  }
 </script>
 </body>
 </html>
