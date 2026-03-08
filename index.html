@@ -784,7 +784,6 @@ function updateCompare() {
 function updateTicketCompare() {
   const i = currentMonth, p = Math.max(0, i-1);
   const mA = DATA.meses[p], mB = DATA.meses[i];
-  document.getElementById('ticketCompareLabel').textContent = mA+'/26 vs '+mB+'/26';
   const recCaixa = DATA.receitaTotal[i], recCaixaP = DATA.receitaTotal[p];
   const prods = [
     {key:'tkAnalytics',name:'Analytics + Pesquisa',ck:'analytics',color:'#3b82f6',fk:'fatCaixaAnalytics'},
