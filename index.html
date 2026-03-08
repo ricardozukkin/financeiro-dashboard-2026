@@ -1213,19 +1213,8 @@ function renderAllCharts() {
   });
 
   // CAIXA SALDO
-  new Chart(document.getElementById('chartCaixa'), {
-    type:'line', data:{ labels:['Dez(ini)','Jan','Fev','Mar','Abr(prev)','Mai(prev)','Jun(prev)'], datasets:[{ label:'Saldo Final', data:[306221,162357,181648,215361,161448,106304,89238], borderColor:'#10b981', backgroundColor:'#10b98120', tension:.4, fill:true, pointBackgroundColor:'#10b981', borderWidth:2, pointRadius:4 }]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:tip}, scales:{x:{grid:{color:'#1e2535'},ticks:{color:'#64748b'}}, y:{grid:{color:'#1e2535'},ticks:{color:'#64748b',callback:v=>'R$'+(v/1000).toFixed(0)+'K'}}} }
-  });
 
   // FLUXO ENTRADAS/SAIDAS
-  new Chart(document.getElementById('chartFluxo'), {
-    type:'bar', data:{ labels:['Jan','Fev','Mar'], datasets:[
-      { label:'Recebimentos', data:[1274778,1434826,1432916], backgroundColor:'#10b98160', borderColor:'#10b981', borderWidth:2, borderRadius:6 },
-      { label:'Pagamentos', data:[1418642,1373178,1325557], backgroundColor:'#ef444460', borderColor:'#ef4444', borderWidth:2, borderRadius:6 }
-    ]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{labels:{color:'#94a3b8'}}, tooltip:tip}, scales:{x:{grid:{color:'#1e2535'},ticks:{color:'#64748b'}}, y:{grid:{color:'#1e2535'},ticks:{color:'#64748b',callback:v=>'R$'+(v/1000).toFixed(0)+'K'}}} }
-  });
 
   // TICKET POR PRODUTO
   new Chart(document.getElementById('chartTicket'), {
