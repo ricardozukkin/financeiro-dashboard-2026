@@ -1050,8 +1050,8 @@ function renderAllCharts() {
           font:{size:9,weight:'bold'},
           anchor:'top',
           align:'top',
-          formatter:(v)=>v?'R$'+(v/1000).toFixed(0)+'K':null,
-          display:(ctx)=>ctx.parsed.y!==null
+          formatter:(v,ctx)=>v!=null?'R$'+(v/1000).toFixed(0)+'K':'',
+          display:(ctx)=>ctx.parsed&&ctx.parsed.y!=null
         }
       },
       scales:{
